@@ -1,58 +1,54 @@
-State 90 conflicts: 14 shift/reduce
-State 91 conflicts: 14 shift/reduce
-
-
 Grammar
 
     0 $accept: Prog $end
 
-    1 Prog: ProgHeading ';' ProgBlock '.'
+    1 Prog: ProgHeading ";" ProgBlock "."
 
-    2 ProgHeading: PROGRAM ID '(' OUTPUT ')'
+    2 ProgHeading: PROGRAM ID "(" OUTPUT ")"
 
     3 ProgBlock: VarPart FuncPart StatPart
 
-    4 VarPart: VAR VarDeclaration ';' repVarPart
+    4 VarPart: VAR VarDeclaration ";" repVarPart
     5        | /* empty */
 
-    6 repVarPart: VarDeclaration ';' repVarPart
+    6 repVarPart: VarDeclaration ";" repVarPart
     7           | /* empty */
 
-    8 VarDeclaration: IDList ':' ID
+    8 VarDeclaration: IDList ":" ID
 
     9 IDList: ID repIDList
 
-   10 repIDList: ID ',' repIDList
+   10 repIDList: ID "," repIDList
    11          | /* empty */
 
    12 FuncPart: repFuncPart
 
-   13 repFuncPart: FuncDeclaration ';' repFuncPart
+   13 repFuncPart: FuncDeclaration ";" repFuncPart
    14            | /* empty */
 
    15 FuncDeclaration: FuncDecl
    16                | FuncDef
    17                | FuncDef2
 
-   18 FuncDecl: FuncHeading ';' FORWARD
+   18 FuncDecl: FuncHeading ";" FORWARD
 
-   19 FuncDef: FuncIdent ';' FuncBlock
+   19 FuncDef: FuncIdent ";" FuncBlock
 
-   20 FuncDef2: FuncHeading ';' FuncBlock
+   20 FuncDef2: FuncHeading ";" FuncBlock
 
-   21 FuncHeading: FUNCTION ID opFuncHeading ':' ID
+   21 FuncHeading: FUNCTION ID opFuncHeading ":" ID
 
    22 opFuncHeading: FormalParamList
    23              | /* empty */
 
    24 FuncIdent: FUNCTION ID
 
-   25 FormalParamList: '(' FormalParams repFormalParamList ')'
+   25 FormalParamList: "(" FormalParams repFormalParamList ")"
 
-   26 repFormalParamList: FormalParams ';' repFormalParamList
+   26 repFormalParamList: FormalParams ";" repFormalParamList
    27                   | /* empty */
 
-   28 FormalParams: opFormalParams IDList ':' ID
+   28 FormalParams: opFormalParams IDList ":" ID
 
    29 opFormalParams: VAR
    30               | /* empty */
@@ -65,7 +61,7 @@ Grammar
 
    34 StatList: Stat repStat
 
-   35 repStat: repStat ';' Stat
+   35 repStat: repStat ";" Stat
    36        | /* empty */
 
    37 Stat: CompStat
@@ -85,174 +81,177 @@ Grammar
    48 opStat3: WritelnPList
    49        | /* empty */
 
-   50 WritelnPList: '(' opWritelnPList repWritelnPList ')'
+   50 WritelnPList: "(" opWritelnPList repWritelnPList ")"
 
    51 opWritelnPList: Expr
    52               | STRING
 
-   53 repWritelnPList: repWritelnPList ',' opWritelnPList
+   53 repWritelnPList: repWritelnPList "," opWritelnPList
    54                | /* empty */
 
    55 Expr: Expr '+' Expr
    56     | Expr '-' Expr
-   57     | Expr '*' Expr
-   58     | Expr '/' Expr
-   59     | Expr '>' Expr
-   60     | Expr '<' Expr
-   61     | Expr '=' Expr
-   62     | Expr GREATEQ Expr
-   63     | Expr LESSEQ Expr
-   64     | Expr LESSGREAT Expr
-   65     | Expr AND Expr
-   66     | Expr OR Expr
-   67     | Expr MOD Expr
-   68     | Expr DIV Expr
-   69     | '-' Expr
-   70     | '+' Expr
-   71     | NOT Expr
-   72     | '(' Expr ')'
-   73     | INTLIT Expr
-   74     | REALLIT Expr
-   75     | ID
-   76     | ID '(' ParamList ')'
+   57     | Expr OR Expr
+   58     | '(' Expr ')'
+   59     | '-' Expr
+   60     | '+' Expr
+   61     | NOT Expr
+   62     | INTLIT
+   63     | REALLIT
+   64     | ID opExpr
+   65     | Expr '*' Expr
+   66     | Expr '/' Expr
+   67     | Expr DIV Expr
+   68     | Expr MOD Expr
+   69     | Expr AND Expr
+   70     | Expr '<' Expr
+   71     | Expr '>' Expr
+   72     | Expr '=' Expr
+   73     | Expr LESSGREAT Expr
+   74     | Expr GREATEQ Expr
+   75     | Expr LESSEQ Expr
 
-   77 ParamList: '(' Expr repParamList ')'
+   76 opExpr: ParamList
+   77       | /* empty */
 
-   78 repParamList: repParamList ',' Expr
-   79             | /* empty */
+   78 ParamList: "(" Expr repParamList ")"
+
+   79 repParamList: repParamList "," Expr
+   80             | /* empty */
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'(' (40) 2 25 50 72 76 77
-')' (41) 2 25 50 72 76 77
-'*' (42) 57
-'+' (43) 55 70
-',' (44) 10 53 78
-'-' (45) 56 69
-'.' (46) 1
-'/' (47) 58
-':' (58) 8 21 28
-';' (59) 1 4 6 13 18 19 20 26 35
-'<' (60) 60
-'=' (61) 61
-'>' (62) 59
+'(' (40) 58
+')' (41) 58
+'*' (42) 65
+'+' (43) 55 60
+'-' (45) 56 59
+'/' (47) 66
+'<' (60) 70
+'=' (61) 72
+'>' (62) 71
 error (256)
-ASSIGN (258) 46
-DO (259) 39
-ELSE (260) 44
-END (261) 33
-FORWARD (262) 18
-FUNCTION (263) 21 24
-IF (264) 38
-NOT (265) 71
-OUTPUT (266) 2
-PARAMSTR (267) 41
-PROGRAM (268) 2
-REPEAT (269) 40
-THEN (270) 38
-UNTIL (271) 40
-VAL (272) 41
-VAR (273) 4 29
-WHILE (274) 39
-WRITELN (275) 43
-BEGIN_ (276) 33
-ID (277) 2 8 9 10 21 24 28 41 46 75 76
-INTLIT (278) 73
-REALLIT (279) 74
-STRING (280) 52
-LESSEQ (281) 63
-LESSGREAT (282) 64
-GREATEQ (283) 62
-OR (284) 66
-AND (285) 65
-MOD (286) 67
-DIV (287) 68
-IFX (288)
-"(" (289) 41
-")" (290) 41
-"," (291) 41
+GREATEQ (258) 74
+LESSEQ (259) 75
+LESSGREAT (260) 73
+OR (261) 57
+AND (262) 69
+MOD (263) 68
+DIV (264) 67
+NOT (265) 61
+IFX (266)
+THEN (267) 38
+ELSE (268) 44
+ASSIGN (269) 46
+DO (270) 39
+END (271) 33
+FORWARD (272) 18
+FUNCTION (273) 21 24
+IF (274) 38
+OUTPUT (275) 2
+PARAMSTR (276) 41
+PROGRAM (277) 2
+REPEAT (278) 40
+UNTIL (279) 40
+VAL (280) 41
+VAR (281) 4 29
+WHILE (282) 39
+WRITELN (283) 43
+BEGIN_ (284) 33
+ID (285) 2 8 9 10 21 24 28 41 46 64
+INTLIT (286) 62
+REALLIT (287) 63
+STRING (288) 52
+";" (289) 1 4 6 13 18 19 20 26 35
+"." (290) 1
+"(" (291) 2 25 41 50 78
+")" (292) 2 25 41 50 78
+":" (293) 8 21 28
+"," (294) 10 41 53 79
 
 
 Nonterminals, with rules where they appear
 
-$accept (50)
+$accept (49)
     on left: 0
-Prog (51)
+Prog (50)
     on left: 1, on right: 0
-ProgHeading (52)
+ProgHeading (51)
     on left: 2, on right: 1
-ProgBlock (53)
+ProgBlock (52)
     on left: 3, on right: 1
-VarPart (54)
+VarPart (53)
     on left: 4 5, on right: 3 31
-repVarPart (55)
+repVarPart (54)
     on left: 6 7, on right: 4 6
-VarDeclaration (56)
+VarDeclaration (55)
     on left: 8, on right: 4 6
-IDList (57)
+IDList (56)
     on left: 9, on right: 8 28
-repIDList (58)
+repIDList (57)
     on left: 10 11, on right: 9 10
-FuncPart (59)
+FuncPart (58)
     on left: 12, on right: 3
-repFuncPart (60)
+repFuncPart (59)
     on left: 13 14, on right: 12 13
-FuncDeclaration (61)
+FuncDeclaration (60)
     on left: 15 16 17, on right: 13
-FuncDecl (62)
+FuncDecl (61)
     on left: 18, on right: 15
-FuncDef (63)
+FuncDef (62)
     on left: 19, on right: 16
-FuncDef2 (64)
+FuncDef2 (63)
     on left: 20, on right: 17
-FuncHeading (65)
+FuncHeading (64)
     on left: 21, on right: 18 20
-opFuncHeading (66)
+opFuncHeading (65)
     on left: 22 23, on right: 21
-FuncIdent (67)
+FuncIdent (66)
     on left: 24, on right: 19
-FormalParamList (68)
+FormalParamList (67)
     on left: 25, on right: 22
-repFormalParamList (69)
+repFormalParamList (68)
     on left: 26 27, on right: 25 26
-FormalParams (70)
+FormalParams (69)
     on left: 28, on right: 25 26
-opFormalParams (71)
+opFormalParams (70)
     on left: 29 30, on right: 28
-FuncBlock (72)
+FuncBlock (71)
     on left: 31, on right: 19 20
-StatPart (73)
+StatPart (72)
     on left: 32, on right: 3 31
-CompStat (74)
+CompStat (73)
     on left: 33, on right: 32 37
-StatList (75)
+StatList (74)
     on left: 34, on right: 33 40
-repStat (76)
+repStat (75)
     on left: 35 36, on right: 34 35
-Stat (77)
+Stat (76)
     on left: 37 38 39 40 41 42 43, on right: 34 35 38 39 44
-opStat1 (78)
+opStat1 (77)
     on left: 44 45, on right: 38
-opStat2 (79)
+opStat2 (78)
     on left: 46 47, on right: 42
-opStat3 (80)
+opStat3 (79)
     on left: 48 49, on right: 43
-WritelnPList (81)
+WritelnPList (80)
     on left: 50, on right: 48
-opWritelnPList (82)
+opWritelnPList (81)
     on left: 51 52, on right: 50 53
-repWritelnPList (83)
+repWritelnPList (82)
     on left: 53 54, on right: 50 53
-Expr (84)
+Expr (83)
     on left: 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72
-    73 74 75 76, on right: 38 39 40 41 46 51 55 56 57 58 59 60 61 62
-    63 64 65 66 67 68 69 70 71 72 73 74 77 78
+    73 74 75, on right: 38 39 40 41 46 51 55 56 57 58 59 60 61 65 66
+    67 68 69 70 71 72 73 74 75 78 79
+opExpr (84)
+    on left: 76 77, on right: 64
 ParamList (85)
-    on left: 77, on right: 76
+    on left: 78, on right: 76
 repParamList (86)
-    on left: 78 79, on right: 77 78
+    on left: 79 80, on right: 78 79
 
 
 state 0
@@ -267,7 +266,7 @@ state 0
 
 state 1
 
-    2 ProgHeading: PROGRAM . ID '(' OUTPUT ')'
+    2 ProgHeading: PROGRAM . ID "(" OUTPUT ")"
 
     ID  shift, and go to state 4
 
@@ -281,16 +280,16 @@ state 2
 
 state 3
 
-    1 Prog: ProgHeading . ';' ProgBlock '.'
+    1 Prog: ProgHeading . ";" ProgBlock "."
 
-    ';'  shift, and go to state 6
+    ";"  shift, and go to state 6
 
 
 state 4
 
-    2 ProgHeading: PROGRAM ID . '(' OUTPUT ')'
+    2 ProgHeading: PROGRAM ID . "(" OUTPUT ")"
 
-    '('  shift, and go to state 7
+    "("  shift, and go to state 7
 
 
 state 5
@@ -302,7 +301,7 @@ state 5
 
 state 6
 
-    1 Prog: ProgHeading ';' . ProgBlock '.'
+    1 Prog: ProgHeading ";" . ProgBlock "."
 
     VAR  shift, and go to state 8
 
@@ -314,14 +313,14 @@ state 6
 
 state 7
 
-    2 ProgHeading: PROGRAM ID '(' . OUTPUT ')'
+    2 ProgHeading: PROGRAM ID "(" . OUTPUT ")"
 
     OUTPUT  shift, and go to state 11
 
 
 state 8
 
-    4 VarPart: VAR . VarDeclaration ';' repVarPart
+    4 VarPart: VAR . VarDeclaration ";" repVarPart
 
     ID  shift, and go to state 12
 
@@ -331,9 +330,9 @@ state 8
 
 state 9
 
-    1 Prog: ProgHeading ';' ProgBlock . '.'
+    1 Prog: ProgHeading ";" ProgBlock . "."
 
-    '.'  shift, and go to state 15
+    "."  shift, and go to state 15
 
 
 state 10
@@ -356,9 +355,9 @@ state 10
 
 state 11
 
-    2 ProgHeading: PROGRAM ID '(' OUTPUT . ')'
+    2 ProgHeading: PROGRAM ID "(" OUTPUT . ")"
 
-    ')'  shift, and go to state 25
+    ")"  shift, and go to state 25
 
 
 state 12
@@ -374,28 +373,28 @@ state 12
 
 state 13
 
-    4 VarPart: VAR VarDeclaration . ';' repVarPart
+    4 VarPart: VAR VarDeclaration . ";" repVarPart
 
-    ';'  shift, and go to state 28
+    ";"  shift, and go to state 28
 
 
 state 14
 
-    8 VarDeclaration: IDList . ':' ID
+    8 VarDeclaration: IDList . ":" ID
 
-    ':'  shift, and go to state 29
+    ":"  shift, and go to state 29
 
 
 state 15
 
-    1 Prog: ProgHeading ';' ProgBlock '.' .
+    1 Prog: ProgHeading ";" ProgBlock "." .
 
     $default  reduce using rule 1 (Prog)
 
 
 state 16
 
-   21 FuncHeading: FUNCTION . ID opFuncHeading ':' ID
+   21 FuncHeading: FUNCTION . ID opFuncHeading ":" ID
    24 FuncIdent: FUNCTION . ID
 
     ID  shift, and go to state 30
@@ -420,9 +419,9 @@ state 18
 
 state 19
 
-   13 repFuncPart: FuncDeclaration . ';' repFuncPart
+   13 repFuncPart: FuncDeclaration . ";" repFuncPart
 
-    ';'  shift, and go to state 34
+    ";"  shift, and go to state 34
 
 
 state 20
@@ -448,31 +447,31 @@ state 22
 
 state 23
 
-   18 FuncDecl: FuncHeading . ';' FORWARD
-   20 FuncDef2: FuncHeading . ';' FuncBlock
+   18 FuncDecl: FuncHeading . ";" FORWARD
+   20 FuncDef2: FuncHeading . ";" FuncBlock
 
-    ';'  shift, and go to state 35
+    ";"  shift, and go to state 35
 
 
 state 24
 
-   19 FuncDef: FuncIdent . ';' FuncBlock
+   19 FuncDef: FuncIdent . ";" FuncBlock
 
-    ';'  shift, and go to state 36
+    ";"  shift, and go to state 36
 
 
 state 25
 
-    2 ProgHeading: PROGRAM ID '(' OUTPUT ')' .
+    2 ProgHeading: PROGRAM ID "(" OUTPUT ")" .
 
     $default  reduce using rule 2 (ProgHeading)
 
 
 state 26
 
-   10 repIDList: ID . ',' repIDList
+   10 repIDList: ID . "," repIDList
 
-    ','  shift, and go to state 37
+    ","  shift, and go to state 37
 
 
 state 27
@@ -484,7 +483,7 @@ state 27
 
 state 28
 
-    4 VarPart: VAR VarDeclaration ';' . repVarPart
+    4 VarPart: VAR VarDeclaration ";" . repVarPart
 
     ID  shift, and go to state 12
 
@@ -497,19 +496,19 @@ state 28
 
 state 29
 
-    8 VarDeclaration: IDList ':' . ID
+    8 VarDeclaration: IDList ":" . ID
 
     ID  shift, and go to state 40
 
 
 state 30
 
-   21 FuncHeading: FUNCTION ID . opFuncHeading ':' ID
+   21 FuncHeading: FUNCTION ID . opFuncHeading ":" ID
    24 FuncIdent: FUNCTION ID .
 
-    '('  shift, and go to state 41
+    "("  shift, and go to state 41
 
-    ';'       reduce using rule 24 (FuncIdent)
+    ";"       reduce using rule 24 (FuncIdent)
     $default  reduce using rule 23 (opFuncHeading)
 
     opFuncHeading    go to state 42
@@ -552,7 +551,7 @@ state 33
 
 state 34
 
-   13 repFuncPart: FuncDeclaration ';' . repFuncPart
+   13 repFuncPart: FuncDeclaration ";" . repFuncPart
 
     FUNCTION  shift, and go to state 16
 
@@ -569,8 +568,8 @@ state 34
 
 state 35
 
-   18 FuncDecl: FuncHeading ';' . FORWARD
-   20 FuncDef2: FuncHeading ';' . FuncBlock
+   18 FuncDecl: FuncHeading ";" . FORWARD
+   20 FuncDef2: FuncHeading ";" . FuncBlock
 
     FORWARD  shift, and go to state 55
     VAR      shift, and go to state 8
@@ -583,7 +582,7 @@ state 35
 
 state 36
 
-   19 FuncDef: FuncIdent ';' . FuncBlock
+   19 FuncDef: FuncIdent ";" . FuncBlock
 
     VAR  shift, and go to state 8
 
@@ -595,7 +594,7 @@ state 36
 
 state 37
 
-   10 repIDList: ID ',' . repIDList
+   10 repIDList: ID "," . repIDList
 
     ID  shift, and go to state 26
 
@@ -606,28 +605,28 @@ state 37
 
 state 38
 
-    4 VarPart: VAR VarDeclaration ';' repVarPart .
+    4 VarPart: VAR VarDeclaration ";" repVarPart .
 
     $default  reduce using rule 4 (VarPart)
 
 
 state 39
 
-    6 repVarPart: VarDeclaration . ';' repVarPart
+    6 repVarPart: VarDeclaration . ";" repVarPart
 
-    ';'  shift, and go to state 60
+    ";"  shift, and go to state 60
 
 
 state 40
 
-    8 VarDeclaration: IDList ':' ID .
+    8 VarDeclaration: IDList ":" ID .
 
     $default  reduce using rule 8 (VarDeclaration)
 
 
 state 41
 
-   25 FormalParamList: '(' . FormalParams repFormalParamList ')'
+   25 FormalParamList: "(" . FormalParams repFormalParamList ")"
 
     VAR  shift, and go to state 61
 
@@ -639,9 +638,9 @@ state 41
 
 state 42
 
-   21 FuncHeading: FUNCTION ID opFuncHeading . ':' ID
+   21 FuncHeading: FUNCTION ID opFuncHeading . ":" ID
 
-    ':'  shift, and go to state 64
+    ":"  shift, and go to state 64
 
 
 state 43
@@ -655,12 +654,12 @@ state 44
 
    38 Stat: IF . Expr THEN Stat opStat1
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
     '('      shift, and go to state 71
 
     Expr  go to state 72
@@ -697,12 +696,12 @@ state 47
 
    39 Stat: WHILE . Expr DO Stat
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
     '('      shift, and go to state 71
 
     Expr  go to state 75
@@ -712,7 +711,7 @@ state 48
 
    43 Stat: WRITELN . opStat3
 
-    '('  shift, and go to state 76
+    "("  shift, and go to state 76
 
     $default  reduce using rule 49 (opStat3)
 
@@ -759,14 +758,14 @@ state 53
 
 state 54
 
-   13 repFuncPart: FuncDeclaration ';' repFuncPart .
+   13 repFuncPart: FuncDeclaration ";" repFuncPart .
 
     $default  reduce using rule 13 (repFuncPart)
 
 
 state 55
 
-   18 FuncDecl: FuncHeading ';' FORWARD .
+   18 FuncDecl: FuncHeading ";" FORWARD .
 
     $default  reduce using rule 18 (FuncDecl)
 
@@ -783,28 +782,28 @@ state 56
 
 state 57
 
-   20 FuncDef2: FuncHeading ';' FuncBlock .
+   20 FuncDef2: FuncHeading ";" FuncBlock .
 
     $default  reduce using rule 20 (FuncDef2)
 
 
 state 58
 
-   19 FuncDef: FuncIdent ';' FuncBlock .
+   19 FuncDef: FuncIdent ";" FuncBlock .
 
     $default  reduce using rule 19 (FuncDef)
 
 
 state 59
 
-   10 repIDList: ID ',' repIDList .
+   10 repIDList: ID "," repIDList .
 
     $default  reduce using rule 10 (repIDList)
 
 
 state 60
 
-    6 repVarPart: VarDeclaration ';' . repVarPart
+    6 repVarPart: VarDeclaration ";" . repVarPart
 
     ID  shift, and go to state 12
 
@@ -824,7 +823,7 @@ state 61
 
 state 62
 
-   25 FormalParamList: '(' FormalParams . repFormalParamList ')'
+   25 FormalParamList: "(" FormalParams . repFormalParamList ")"
 
     VAR  shift, and go to state 61
 
@@ -838,7 +837,7 @@ state 62
 
 state 63
 
-   28 FormalParams: opFormalParams . IDList ':' ID
+   28 FormalParams: opFormalParams . IDList ":" ID
 
     ID  shift, and go to state 12
 
@@ -847,21 +846,21 @@ state 63
 
 state 64
 
-   21 FuncHeading: FUNCTION ID opFuncHeading ':' . ID
+   21 FuncHeading: FUNCTION ID opFuncHeading ":" . ID
 
     ID  shift, and go to state 87
 
 
 state 65
 
-   71 Expr: NOT . Expr
+   60 Expr: '+' . Expr
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
     '('      shift, and go to state 71
 
     Expr  go to state 88
@@ -869,24 +868,29 @@ state 65
 
 state 66
 
-   75 Expr: ID .
-   76     | ID . '(' ParamList ')'
+   59 Expr: '-' . Expr
 
-    '('  shift, and go to state 89
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
 
-    $default  reduce using rule 75 (Expr)
+    Expr  go to state 89
 
 
 state 67
 
-   73 Expr: INTLIT . Expr
+   61 Expr: NOT . Expr
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
     '('      shift, and go to state 71
 
     Expr  go to state 90
@@ -894,59 +898,40 @@ state 67
 
 state 68
 
-   74 Expr: REALLIT . Expr
+   64 Expr: ID . opExpr
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
+    "("  shift, and go to state 91
 
-    Expr  go to state 91
+    $default  reduce using rule 77 (opExpr)
+
+    opExpr     go to state 92
+    ParamList  go to state 93
 
 
 state 69
 
-   70 Expr: '+' . Expr
+   62 Expr: INTLIT .
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 92
+    $default  reduce using rule 62 (Expr)
 
 
 state 70
 
-   69 Expr: '-' . Expr
+   63 Expr: REALLIT .
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 93
+    $default  reduce using rule 63 (Expr)
 
 
 state 71
 
-   72 Expr: '(' . Expr ')'
+   58 Expr: '(' . Expr ')'
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
     '('      shift, and go to state 71
 
     Expr  go to state 94
@@ -957,34 +942,34 @@ state 72
    38 Stat: IF Expr . THEN Stat opStat1
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    THEN       shift, and go to state 95
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
+    '='        shift, and go to state 95
+    '<'        shift, and go to state 96
+    '>'        shift, and go to state 97
+    GREATEQ    shift, and go to state 98
     LESSEQ     shift, and go to state 99
     LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
+    '+'        shift, and go to state 101
+    '-'        shift, and go to state 102
+    OR         shift, and go to state 103
+    '*'        shift, and go to state 104
+    '/'        shift, and go to state 105
+    AND        shift, and go to state 106
+    MOD        shift, and go to state 107
+    DIV        shift, and go to state 108
+    THEN       shift, and go to state 109
 
 
 state 73
@@ -1006,47 +991,47 @@ state 75
    39 Stat: WHILE Expr . DO Stat
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    DO         shift, and go to state 112
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
+    '='        shift, and go to state 95
+    '<'        shift, and go to state 96
+    '>'        shift, and go to state 97
+    GREATEQ    shift, and go to state 98
     LESSEQ     shift, and go to state 99
     LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
+    '+'        shift, and go to state 101
+    '-'        shift, and go to state 102
+    OR         shift, and go to state 103
+    '*'        shift, and go to state 104
+    '/'        shift, and go to state 105
+    AND        shift, and go to state 106
+    MOD        shift, and go to state 107
+    DIV        shift, and go to state 108
+    DO         shift, and go to state 112
 
 
 state 76
 
-   50 WritelnPList: '(' . opWritelnPList repWritelnPList ')'
+   50 WritelnPList: "(" . opWritelnPList repWritelnPList ")"
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
     STRING   shift, and go to state 113
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
     '('      shift, and go to state 71
 
     opWritelnPList  go to state 114
@@ -1071,12 +1056,12 @@ state 79
 
    46 opStat2: ID ASSIGN . Expr
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
     '('      shift, and go to state 71
 
     Expr  go to state 116
@@ -1092,9 +1077,9 @@ state 80
 state 81
 
    34 StatList: Stat repStat .
-   35 repStat: repStat . ';' Stat
+   35 repStat: repStat . ";" Stat
 
-    ';'  shift, and go to state 117
+    ";"  shift, and go to state 117
 
     $default  reduce using rule 34 (StatList)
 
@@ -1108,35 +1093,35 @@ state 82
 
 state 83
 
-    6 repVarPart: VarDeclaration ';' repVarPart .
+    6 repVarPart: VarDeclaration ";" repVarPart .
 
     $default  reduce using rule 6 (repVarPart)
 
 
 state 84
 
-   25 FormalParamList: '(' FormalParams repFormalParamList . ')'
+   25 FormalParamList: "(" FormalParams repFormalParamList . ")"
 
-    ')'  shift, and go to state 118
+    ")"  shift, and go to state 118
 
 
 state 85
 
-   26 repFormalParamList: FormalParams . ';' repFormalParamList
+   26 repFormalParamList: FormalParams . ";" repFormalParamList
 
-    ';'  shift, and go to state 119
+    ";"  shift, and go to state 119
 
 
 state 86
 
-   28 FormalParams: opFormalParams IDList . ':' ID
+   28 FormalParams: opFormalParams IDList . ":" ID
 
-    ':'  shift, and go to state 120
+    ":"  shift, and go to state 120
 
 
 state 87
 
-   21 FuncHeading: FUNCTION ID opFuncHeading ':' ID .
+   21 FuncHeading: FUNCTION ID opFuncHeading ":" ID .
 
     $default  reduce using rule 21 (FuncHeading)
 
@@ -1145,222 +1130,352 @@ state 88
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-   71     | NOT Expr .
+   57     | Expr . OR Expr
+   60     | '+' Expr .
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    $default  reduce using rule 71 (Expr)
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
+
+    $default  reduce using rule 60 (Expr)
 
 
 state 89
 
-   76 Expr: ID '(' . ParamList ')'
+   55 Expr: Expr . '+' Expr
+   56     | Expr . '-' Expr
+   57     | Expr . OR Expr
+   59     | '-' Expr .
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '('  shift, and go to state 121
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
 
-    ParamList  go to state 122
+    $default  reduce using rule 59 (Expr)
 
 
 state 90
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-   73     | INTLIT Expr .
+   57     | Expr . OR Expr
+   61     | NOT Expr .
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
-    LESSEQ     shift, and go to state 99
-    LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
-
-    '>'        [reduce using rule 73 (Expr)]
-    '<'        [reduce using rule 73 (Expr)]
-    '='        [reduce using rule 73 (Expr)]
-    LESSEQ     [reduce using rule 73 (Expr)]
-    LESSGREAT  [reduce using rule 73 (Expr)]
-    GREATEQ    [reduce using rule 73 (Expr)]
-    '+'        [reduce using rule 73 (Expr)]
-    '-'        [reduce using rule 73 (Expr)]
-    OR         [reduce using rule 73 (Expr)]
-    '*'        [reduce using rule 73 (Expr)]
-    '/'        [reduce using rule 73 (Expr)]
-    AND        [reduce using rule 73 (Expr)]
-    MOD        [reduce using rule 73 (Expr)]
-    DIV        [reduce using rule 73 (Expr)]
-    $default   reduce using rule 73 (Expr)
+    $default  reduce using rule 61 (Expr)
 
 
 state 91
 
-   55 Expr: Expr . '+' Expr
-   56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-   74     | REALLIT Expr .
+   78 ParamList: "(" . Expr repParamList ")"
 
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
-    LESSEQ     shift, and go to state 99
-    LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
 
-    '>'        [reduce using rule 74 (Expr)]
-    '<'        [reduce using rule 74 (Expr)]
-    '='        [reduce using rule 74 (Expr)]
-    LESSEQ     [reduce using rule 74 (Expr)]
-    LESSGREAT  [reduce using rule 74 (Expr)]
-    GREATEQ    [reduce using rule 74 (Expr)]
-    '+'        [reduce using rule 74 (Expr)]
-    '-'        [reduce using rule 74 (Expr)]
-    OR         [reduce using rule 74 (Expr)]
-    '*'        [reduce using rule 74 (Expr)]
-    '/'        [reduce using rule 74 (Expr)]
-    AND        [reduce using rule 74 (Expr)]
-    MOD        [reduce using rule 74 (Expr)]
-    DIV        [reduce using rule 74 (Expr)]
-    $default   reduce using rule 74 (Expr)
+    Expr  go to state 121
 
 
 state 92
 
-   55 Expr: Expr . '+' Expr
-   56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-   70     | '+' Expr .
+   64 Expr: ID opExpr .
 
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
-
-    $default  reduce using rule 70 (Expr)
+    $default  reduce using rule 64 (Expr)
 
 
 state 93
 
-   55 Expr: Expr . '+' Expr
-   56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-   69     | '-' Expr .
+   76 opExpr: ParamList .
 
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
-
-    $default  reduce using rule 69 (Expr)
+    $default  reduce using rule 76 (opExpr)
 
 
 state 94
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-   72     | '(' Expr . ')'
+   57     | Expr . OR Expr
+   58     | '(' Expr . ')'
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
+    '='        shift, and go to state 95
+    '<'        shift, and go to state 96
+    '>'        shift, and go to state 97
+    GREATEQ    shift, and go to state 98
     LESSEQ     shift, and go to state 99
     LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
-    ')'        shift, and go to state 123
+    '+'        shift, and go to state 101
+    '-'        shift, and go to state 102
+    OR         shift, and go to state 103
+    '*'        shift, and go to state 104
+    '/'        shift, and go to state 105
+    AND        shift, and go to state 106
+    MOD        shift, and go to state 107
+    DIV        shift, and go to state 108
+    ')'        shift, and go to state 122
 
 
 state 95
+
+   72 Expr: Expr '=' . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 123
+
+
+state 96
+
+   70 Expr: Expr '<' . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 124
+
+
+state 97
+
+   71 Expr: Expr '>' . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 125
+
+
+state 98
+
+   74 Expr: Expr GREATEQ . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 126
+
+
+state 99
+
+   75 Expr: Expr LESSEQ . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 127
+
+
+state 100
+
+   73 Expr: Expr LESSGREAT . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 128
+
+
+state 101
+
+   55 Expr: Expr '+' . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 129
+
+
+state 102
+
+   56 Expr: Expr '-' . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 130
+
+
+state 103
+
+   57 Expr: Expr OR . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 131
+
+
+state 104
+
+   65 Expr: Expr '*' . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 132
+
+
+state 105
+
+   66 Expr: Expr '/' . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 133
+
+
+state 106
+
+   69 Expr: Expr AND . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 134
+
+
+state 107
+
+   68 Expr: Expr MOD . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 135
+
+
+state 108
+
+   67 Expr: Expr DIV . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 136
+
+
+state 109
 
    38 Stat: IF Expr THEN . Stat opStat1
 
@@ -1375,240 +1490,30 @@ state 95
     $default  reduce using rule 47 (opStat2)
 
     CompStat  go to state 50
-    Stat      go to state 124
+    Stat      go to state 137
     opStat2   go to state 53
-
-
-state 96
-
-   59 Expr: Expr '>' . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 125
-
-
-state 97
-
-   60 Expr: Expr '<' . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 126
-
-
-state 98
-
-   61 Expr: Expr '=' . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 127
-
-
-state 99
-
-   63 Expr: Expr LESSEQ . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 128
-
-
-state 100
-
-   64 Expr: Expr LESSGREAT . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 129
-
-
-state 101
-
-   62 Expr: Expr GREATEQ . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 130
-
-
-state 102
-
-   55 Expr: Expr '+' . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 131
-
-
-state 103
-
-   56 Expr: Expr '-' . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 132
-
-
-state 104
-
-   66 Expr: Expr OR . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 133
-
-
-state 105
-
-   57 Expr: Expr '*' . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 134
-
-
-state 106
-
-   58 Expr: Expr '/' . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 135
-
-
-state 107
-
-   65 Expr: Expr AND . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 136
-
-
-state 108
-
-   67 Expr: Expr MOD . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 137
-
-
-state 109
-
-   68 Expr: Expr DIV . Expr
-
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 138
 
 
 state 110
 
    40 Stat: REPEAT StatList UNTIL . Expr
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
     '('      shift, and go to state 71
 
-    Expr  go to state 139
+    Expr  go to state 138
 
 
 state 111
 
    41 Stat: VAL "(" PARAMSTR . "(" Expr ")" "," ID ")"
 
-    "("  shift, and go to state 140
+    "("  shift, and go to state 139
 
 
 state 112
@@ -1626,7 +1531,7 @@ state 112
     $default  reduce using rule 47 (opStat2)
 
     CompStat  go to state 50
-    Stat      go to state 141
+    Stat      go to state 140
     opStat2   go to state 53
 
 
@@ -1639,11 +1544,11 @@ state 113
 
 state 114
 
-   50 WritelnPList: '(' opWritelnPList . repWritelnPList ')'
+   50 WritelnPList: "(" opWritelnPList . repWritelnPList ")"
 
     $default  reduce using rule 54 (repWritelnPList)
 
-    repWritelnPList  go to state 142
+    repWritelnPList  go to state 141
 
 
 state 115
@@ -1651,33 +1556,33 @@ state 115
    51 opWritelnPList: Expr .
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
+    '='        shift, and go to state 95
+    '<'        shift, and go to state 96
+    '>'        shift, and go to state 97
+    GREATEQ    shift, and go to state 98
     LESSEQ     shift, and go to state 99
     LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
+    '+'        shift, and go to state 101
+    '-'        shift, and go to state 102
+    OR         shift, and go to state 103
+    '*'        shift, and go to state 104
+    '/'        shift, and go to state 105
+    AND        shift, and go to state 106
+    MOD        shift, and go to state 107
+    DIV        shift, and go to state 108
 
     $default  reduce using rule 51 (opWritelnPList)
 
@@ -1687,40 +1592,40 @@ state 116
    46 opStat2: ID ASSIGN Expr .
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
+    '='        shift, and go to state 95
+    '<'        shift, and go to state 96
+    '>'        shift, and go to state 97
+    GREATEQ    shift, and go to state 98
     LESSEQ     shift, and go to state 99
     LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
+    '+'        shift, and go to state 101
+    '-'        shift, and go to state 102
+    OR         shift, and go to state 103
+    '*'        shift, and go to state 104
+    '/'        shift, and go to state 105
+    AND        shift, and go to state 106
+    MOD        shift, and go to state 107
+    DIV        shift, and go to state 108
 
     $default  reduce using rule 46 (opStat2)
 
 
 state 117
 
-   35 repStat: repStat ';' . Stat
+   35 repStat: repStat ";" . Stat
 
     IF       shift, and go to state 44
     REPEAT   shift, and go to state 45
@@ -1733,335 +1638,382 @@ state 117
     $default  reduce using rule 47 (opStat2)
 
     CompStat  go to state 50
-    Stat      go to state 143
+    Stat      go to state 142
     opStat2   go to state 53
 
 
 state 118
 
-   25 FormalParamList: '(' FormalParams repFormalParamList ')' .
+   25 FormalParamList: "(" FormalParams repFormalParamList ")" .
 
     $default  reduce using rule 25 (FormalParamList)
 
 
 state 119
 
-   26 repFormalParamList: FormalParams ';' . repFormalParamList
+   26 repFormalParamList: FormalParams ";" . repFormalParamList
 
     VAR  shift, and go to state 61
 
     ID        reduce using rule 30 (opFormalParams)
     $default  reduce using rule 27 (repFormalParamList)
 
-    repFormalParamList  go to state 144
+    repFormalParamList  go to state 143
     FormalParams        go to state 85
     opFormalParams      go to state 63
 
 
 state 120
 
-   28 FormalParams: opFormalParams IDList ':' . ID
+   28 FormalParams: opFormalParams IDList ":" . ID
 
-    ID  shift, and go to state 145
+    ID  shift, and go to state 144
 
 
 state 121
 
-   77 ParamList: '(' . Expr repParamList ')'
+   55 Expr: Expr . '+' Expr
+   56     | Expr . '-' Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
+   78 ParamList: "(" Expr . repParamList ")"
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
+    '='        shift, and go to state 95
+    '<'        shift, and go to state 96
+    '>'        shift, and go to state 97
+    GREATEQ    shift, and go to state 98
+    LESSEQ     shift, and go to state 99
+    LESSGREAT  shift, and go to state 100
+    '+'        shift, and go to state 101
+    '-'        shift, and go to state 102
+    OR         shift, and go to state 103
+    '*'        shift, and go to state 104
+    '/'        shift, and go to state 105
+    AND        shift, and go to state 106
+    MOD        shift, and go to state 107
+    DIV        shift, and go to state 108
 
-    Expr  go to state 146
+    $default  reduce using rule 80 (repParamList)
+
+    repParamList  go to state 145
 
 
 state 122
 
-   76 Expr: ID '(' ParamList . ')'
+   58 Expr: '(' Expr ')' .
 
-    ')'  shift, and go to state 147
+    $default  reduce using rule 58 (Expr)
 
 
 state 123
 
-   72 Expr: '(' Expr ')' .
+   55 Expr: Expr . '+' Expr
+   56     | Expr . '-' Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   72     | Expr '=' Expr .
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
+
+    '+'  shift, and go to state 101
+    '-'  shift, and go to state 102
+    OR   shift, and go to state 103
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
 
     $default  reduce using rule 72 (Expr)
 
 
 state 124
 
-   38 Stat: IF Expr THEN Stat . opStat1
+   55 Expr: Expr . '+' Expr
+   56     | Expr . '-' Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   70     | Expr '<' Expr .
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    ELSE  shift, and go to state 148
+    '+'  shift, and go to state 101
+    '-'  shift, and go to state 102
+    OR   shift, and go to state 103
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
 
-    $default  reduce using rule 45 (opStat1)
-
-    opStat1  go to state 149
+    $default  reduce using rule 70 (Expr)
 
 
 state 125
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   59     | Expr '>' Expr .
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   71     | Expr '>' Expr .
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '+'  shift, and go to state 102
-    '-'  shift, and go to state 103
-    OR   shift, and go to state 104
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
+    '+'  shift, and go to state 101
+    '-'  shift, and go to state 102
+    OR   shift, and go to state 103
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
 
-    $default  reduce using rule 59 (Expr)
+    $default  reduce using rule 71 (Expr)
 
 
 state 126
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   60     | Expr '<' Expr .
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   74     | Expr GREATEQ Expr .
+   75     | Expr . LESSEQ Expr
 
-    '+'  shift, and go to state 102
-    '-'  shift, and go to state 103
-    OR   shift, and go to state 104
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
+    '+'  shift, and go to state 101
+    '-'  shift, and go to state 102
+    OR   shift, and go to state 103
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
 
-    $default  reduce using rule 60 (Expr)
+    $default  reduce using rule 74 (Expr)
 
 
 state 127
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   61     | Expr '=' Expr .
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
+   75     | Expr LESSEQ Expr .
 
-    '+'  shift, and go to state 102
-    '-'  shift, and go to state 103
-    OR   shift, and go to state 104
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
+    '+'  shift, and go to state 101
+    '-'  shift, and go to state 102
+    OR   shift, and go to state 103
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
 
-    $default  reduce using rule 61 (Expr)
+    $default  reduce using rule 75 (Expr)
 
 
 state 128
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   63     | Expr LESSEQ Expr .
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   73     | Expr LESSGREAT Expr .
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '+'  shift, and go to state 102
-    '-'  shift, and go to state 103
-    OR   shift, and go to state 104
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
+    '+'  shift, and go to state 101
+    '-'  shift, and go to state 102
+    OR   shift, and go to state 103
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
 
-    $default  reduce using rule 63 (Expr)
+    $default  reduce using rule 73 (Expr)
 
 
 state 129
 
    55 Expr: Expr . '+' Expr
+   55     | Expr '+' Expr .
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   64     | Expr LESSGREAT Expr .
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '+'  shift, and go to state 102
-    '-'  shift, and go to state 103
-    OR   shift, and go to state 104
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
 
-    $default  reduce using rule 64 (Expr)
+    $default  reduce using rule 55 (Expr)
 
 
 state 130
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   62     | Expr GREATEQ Expr .
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   56     | Expr '-' Expr .
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '+'  shift, and go to state 102
-    '-'  shift, and go to state 103
-    OR   shift, and go to state 104
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
 
-    $default  reduce using rule 62 (Expr)
+    $default  reduce using rule 56 (Expr)
 
 
 state 131
 
    55 Expr: Expr . '+' Expr
-   55     | Expr '+' Expr .
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   57     | Expr OR Expr .
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
+    '*'  shift, and go to state 104
+    '/'  shift, and go to state 105
+    AND  shift, and go to state 106
+    MOD  shift, and go to state 107
+    DIV  shift, and go to state 108
 
-    $default  reduce using rule 55 (Expr)
+    $default  reduce using rule 57 (Expr)
 
 
 state 132
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   56     | Expr '-' Expr .
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   65     | Expr '*' Expr .
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
-
-    $default  reduce using rule 56 (Expr)
+    $default  reduce using rule 65 (Expr)
 
 
 state 133
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   66     | Expr OR Expr .
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-
-    '*'  shift, and go to state 105
-    '/'  shift, and go to state 106
-    AND  shift, and go to state 107
-    MOD  shift, and go to state 108
-    DIV  shift, and go to state 109
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   66     | Expr '/' Expr .
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
     $default  reduce using rule 66 (Expr)
 
@@ -2070,241 +2022,174 @@ state 134
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   57     | Expr '*' Expr .
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   69     | Expr AND Expr .
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    $default  reduce using rule 57 (Expr)
+    $default  reduce using rule 69 (Expr)
 
 
 state 135
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   58     | Expr '/' Expr .
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   68     | Expr MOD Expr .
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    $default  reduce using rule 58 (Expr)
+    $default  reduce using rule 68 (Expr)
 
 
 state 136
 
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   65     | Expr AND Expr .
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-
-    $default  reduce using rule 65 (Expr)
-
-
-state 137
-
-   55 Expr: Expr . '+' Expr
-   56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   67     | Expr MOD Expr .
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   67     | Expr DIV Expr .
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
     $default  reduce using rule 67 (Expr)
 
 
+state 137
+
+   38 Stat: IF Expr THEN Stat . opStat1
+
+    ELSE  shift, and go to state 146
+
+    $default  reduce using rule 45 (opStat1)
+
+    opStat1  go to state 147
+
+
 state 138
-
-   55 Expr: Expr . '+' Expr
-   56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-   68     | Expr DIV Expr .
-
-    $default  reduce using rule 68 (Expr)
-
-
-state 139
 
    40 Stat: REPEAT StatList UNTIL Expr .
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
+    '='        shift, and go to state 95
+    '<'        shift, and go to state 96
+    '>'        shift, and go to state 97
+    GREATEQ    shift, and go to state 98
     LESSEQ     shift, and go to state 99
     LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
+    '+'        shift, and go to state 101
+    '-'        shift, and go to state 102
+    OR         shift, and go to state 103
+    '*'        shift, and go to state 104
+    '/'        shift, and go to state 105
+    AND        shift, and go to state 106
+    MOD        shift, and go to state 107
+    DIV        shift, and go to state 108
 
     $default  reduce using rule 40 (Stat)
 
 
-state 140
+state 139
 
    41 Stat: VAL "(" PARAMSTR "(" . Expr ")" "," ID ")"
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
     '('      shift, and go to state 71
 
-    Expr  go to state 150
+    Expr  go to state 148
 
 
-state 141
+state 140
 
    39 Stat: WHILE Expr DO Stat .
 
     $default  reduce using rule 39 (Stat)
 
 
+state 141
+
+   50 WritelnPList: "(" opWritelnPList repWritelnPList . ")"
+   53 repWritelnPList: repWritelnPList . "," opWritelnPList
+
+    ")"  shift, and go to state 149
+    ","  shift, and go to state 150
+
+
 state 142
 
-   50 WritelnPList: '(' opWritelnPList repWritelnPList . ')'
-   53 repWritelnPList: repWritelnPList . ',' opWritelnPList
-
-    ')'  shift, and go to state 151
-    ','  shift, and go to state 152
-
-
-state 143
-
-   35 repStat: repStat ';' Stat .
+   35 repStat: repStat ";" Stat .
 
     $default  reduce using rule 35 (repStat)
 
 
-state 144
+state 143
 
-   26 repFormalParamList: FormalParams ';' repFormalParamList .
+   26 repFormalParamList: FormalParams ";" repFormalParamList .
 
     $default  reduce using rule 26 (repFormalParamList)
 
 
-state 145
+state 144
 
-   28 FormalParams: opFormalParams IDList ':' ID .
+   28 FormalParams: opFormalParams IDList ":" ID .
 
     $default  reduce using rule 28 (FormalParams)
 
 
+state 145
+
+   78 ParamList: "(" Expr repParamList . ")"
+   79 repParamList: repParamList . "," Expr
+
+    ")"  shift, and go to state 151
+    ","  shift, and go to state 152
+
+
 state 146
-
-   55 Expr: Expr . '+' Expr
-   56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-   77 ParamList: '(' Expr . repParamList ')'
-
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
-    LESSEQ     shift, and go to state 99
-    LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
-
-    $default  reduce using rule 79 (repParamList)
-
-    repParamList  go to state 153
-
-
-state 147
-
-   76 Expr: ID '(' ParamList ')' .
-
-    $default  reduce using rule 76 (Expr)
-
-
-state 148
 
    44 opStat1: ELSE . Stat
 
@@ -2319,179 +2204,170 @@ state 148
     $default  reduce using rule 47 (opStat2)
 
     CompStat  go to state 50
-    Stat      go to state 154
+    Stat      go to state 153
     opStat2   go to state 53
 
 
-state 149
+state 147
 
    38 Stat: IF Expr THEN Stat opStat1 .
 
     $default  reduce using rule 38 (Stat)
 
 
-state 150
+state 148
 
    41 Stat: VAL "(" PARAMSTR "(" Expr . ")" "," ID ")"
    55 Expr: Expr . '+' Expr
    56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
 
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
+    '='        shift, and go to state 95
+    '<'        shift, and go to state 96
+    '>'        shift, and go to state 97
+    GREATEQ    shift, and go to state 98
     LESSEQ     shift, and go to state 99
     LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
-    ")"        shift, and go to state 155
+    '+'        shift, and go to state 101
+    '-'        shift, and go to state 102
+    OR         shift, and go to state 103
+    '*'        shift, and go to state 104
+    '/'        shift, and go to state 105
+    AND        shift, and go to state 106
+    MOD        shift, and go to state 107
+    DIV        shift, and go to state 108
+    ")"        shift, and go to state 154
 
 
-state 151
+state 149
 
-   50 WritelnPList: '(' opWritelnPList repWritelnPList ')' .
+   50 WritelnPList: "(" opWritelnPList repWritelnPList ")" .
 
     $default  reduce using rule 50 (WritelnPList)
 
 
-state 152
+state 150
 
-   53 repWritelnPList: repWritelnPList ',' . opWritelnPList
+   53 repWritelnPList: repWritelnPList "," . opWritelnPList
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
     STRING   shift, and go to state 113
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
     '('      shift, and go to state 71
 
-    opWritelnPList  go to state 156
+    opWritelnPList  go to state 155
     Expr            go to state 115
 
 
+state 151
+
+   78 ParamList: "(" Expr repParamList ")" .
+
+    $default  reduce using rule 78 (ParamList)
+
+
+state 152
+
+   79 repParamList: repParamList "," . Expr
+
+    '+'      shift, and go to state 65
+    '-'      shift, and go to state 66
+    NOT      shift, and go to state 67
+    ID       shift, and go to state 68
+    INTLIT   shift, and go to state 69
+    REALLIT  shift, and go to state 70
+    '('      shift, and go to state 71
+
+    Expr  go to state 156
+
+
 state 153
-
-   77 ParamList: '(' Expr repParamList . ')'
-   78 repParamList: repParamList . ',' Expr
-
-    ')'  shift, and go to state 157
-    ','  shift, and go to state 158
-
-
-state 154
 
    44 opStat1: ELSE Stat .
 
     $default  reduce using rule 44 (opStat1)
 
 
-state 155
+state 154
 
    41 Stat: VAL "(" PARAMSTR "(" Expr ")" . "," ID ")"
 
-    ","  shift, and go to state 159
+    ","  shift, and go to state 157
 
 
-state 156
+state 155
 
-   53 repWritelnPList: repWritelnPList ',' opWritelnPList .
+   53 repWritelnPList: repWritelnPList "," opWritelnPList .
 
     $default  reduce using rule 53 (repWritelnPList)
 
 
+state 156
+
+   55 Expr: Expr . '+' Expr
+   56     | Expr . '-' Expr
+   57     | Expr . OR Expr
+   65     | Expr . '*' Expr
+   66     | Expr . '/' Expr
+   67     | Expr . DIV Expr
+   68     | Expr . MOD Expr
+   69     | Expr . AND Expr
+   70     | Expr . '<' Expr
+   71     | Expr . '>' Expr
+   72     | Expr . '=' Expr
+   73     | Expr . LESSGREAT Expr
+   74     | Expr . GREATEQ Expr
+   75     | Expr . LESSEQ Expr
+   79 repParamList: repParamList "," Expr .
+
+    '='        shift, and go to state 95
+    '<'        shift, and go to state 96
+    '>'        shift, and go to state 97
+    GREATEQ    shift, and go to state 98
+    LESSEQ     shift, and go to state 99
+    LESSGREAT  shift, and go to state 100
+    '+'        shift, and go to state 101
+    '-'        shift, and go to state 102
+    OR         shift, and go to state 103
+    '*'        shift, and go to state 104
+    '/'        shift, and go to state 105
+    AND        shift, and go to state 106
+    MOD        shift, and go to state 107
+    DIV        shift, and go to state 108
+
+    $default  reduce using rule 79 (repParamList)
+
+
 state 157
 
-   77 ParamList: '(' Expr repParamList ')' .
+   41 Stat: VAL "(" PARAMSTR "(" Expr ")" "," . ID ")"
 
-    $default  reduce using rule 77 (ParamList)
+    ID  shift, and go to state 158
 
 
 state 158
 
-   78 repParamList: repParamList ',' . Expr
+   41 Stat: VAL "(" PARAMSTR "(" Expr ")" "," ID . ")"
 
-    NOT      shift, and go to state 65
-    ID       shift, and go to state 66
-    INTLIT   shift, and go to state 67
-    REALLIT  shift, and go to state 68
-    '+'      shift, and go to state 69
-    '-'      shift, and go to state 70
-    '('      shift, and go to state 71
-
-    Expr  go to state 160
+    ")"  shift, and go to state 159
 
 
 state 159
-
-   41 Stat: VAL "(" PARAMSTR "(" Expr ")" "," . ID ")"
-
-    ID  shift, and go to state 161
-
-
-state 160
-
-   55 Expr: Expr . '+' Expr
-   56     | Expr . '-' Expr
-   57     | Expr . '*' Expr
-   58     | Expr . '/' Expr
-   59     | Expr . '>' Expr
-   60     | Expr . '<' Expr
-   61     | Expr . '=' Expr
-   62     | Expr . GREATEQ Expr
-   63     | Expr . LESSEQ Expr
-   64     | Expr . LESSGREAT Expr
-   65     | Expr . AND Expr
-   66     | Expr . OR Expr
-   67     | Expr . MOD Expr
-   68     | Expr . DIV Expr
-   78 repParamList: repParamList ',' Expr .
-
-    '>'        shift, and go to state 96
-    '<'        shift, and go to state 97
-    '='        shift, and go to state 98
-    LESSEQ     shift, and go to state 99
-    LESSGREAT  shift, and go to state 100
-    GREATEQ    shift, and go to state 101
-    '+'        shift, and go to state 102
-    '-'        shift, and go to state 103
-    OR         shift, and go to state 104
-    '*'        shift, and go to state 105
-    '/'        shift, and go to state 106
-    AND        shift, and go to state 107
-    MOD        shift, and go to state 108
-    DIV        shift, and go to state 109
-
-    $default  reduce using rule 78 (repParamList)
-
-
-state 161
-
-   41 Stat: VAL "(" PARAMSTR "(" Expr ")" "," ID . ")"
-
-    ")"  shift, and go to state 162
-
-
-state 162
 
    41 Stat: VAL "(" PARAMSTR "(" Expr ")" "," ID ")" .
 

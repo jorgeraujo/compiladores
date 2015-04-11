@@ -1,8 +1,6 @@
 %{
 #include "y.tab.h"
 #include "stdio.h"
-
-
 %}
 
 %option case-insensitive
@@ -35,17 +33,10 @@ VAL					(val)
 VAR					(var)
 WHILE				(while)
 WRITELN				(writeln)
-                    '+'
-                    '-'
-                    '='
-					'<'
-					'>'
-GREATEQ				">="
-					'*'
-					'/'
 AND					(and)
 OR            		(or)
 LESSEQ				"<="
+GREATEQ				">="
 LESSGREAT			"<>"
 MOD					(mod)
 DIV					(div)
@@ -57,7 +48,6 @@ UNTERMINATED_STRING	'([^\n']|'')*
 
 %{
 	int line_number=1,column_number=1,comment_line_ini,comment_column_ini;
-
 %}
 
 %%
@@ -81,20 +71,21 @@ UNTERMINATED_STRING	'([^\n']|'')*
 {VAL}										{column_number += yyleng;return VAL;}	
 {VAR}										{column_number += yyleng;return VAR;}	
 {WHILE}										{column_number += yyleng;return WHILE;}
-{WRITELN}									{column_number += yyleng;return WRITELN;}
-OP1											{column_number += yyleng;return OP1;}
-OP2											{column_number += yyleng;return OP2;}	
-OP3											{column_number += yyleng;return OP3;}
+{WRITELN}									{column_number += yyleng;return WRITELN;}	
 {AND}										{column_number += yyleng;return AND;}
 {OR}										{column_number += yyleng;return OR;}
 {MOD}										{column_number += yyleng;return MOD;}
 {DIV}										{column_number += yyleng;return DIV;}
+{LESSGREAT}									{column_number += yyleng;return LESSGREAT;}
+{LESSEQ}									{column_number += yyleng;return LESSEQ;}
+{GREATEQ}									{column_number += yyleng;return GREATEQ;}
+"+"|"-"|"*"|"/"|"<"|">"|"="					{column_number += yyleng;return *yytext;}		
 {WHITESPACE}								{column_number += yyleng;}
 {NEWLINE}									{line_number++;column_number=1;}
-{ID}										{column_number += yyleng;yylval.str=(char*)strdup(yytext);return ID;}
-{INTLIT}									{column_number += yyleng;yylval.str = yytext;return INTLIT;}
-{REALLIT}									{column_number += yyleng;yylval.str = yytext;return REALLIT;}
-{STRING}									{column_number += yyleng;yylval.str=(char*)strdup(yytext);return STRING;} 
+{ID}										{column_number += yyleng;yylval =(char*)strdup(yytext);return ID;}
+{INTLIT}									{column_number += yyleng;yylval = atoi(yytext);return INTLIT;}
+{REALLIT}									{column_number += yyleng;yylval = atof(yytext);return REALLIT;}
+{STRING}									{column_number += yyleng;yylval =(char*)strdup(yytext);return STRING;} 
 
 ("{")										{comment_line_ini =line_number ,comment_column_ini = column_number ;column_number += yyleng;BEGIN(COMMENT);}
 ("(*")                  					{comment_line_ini =line_number ,comment_column_ini = column_number;column_number += yyleng;BEGIN(COMMENT);}
@@ -106,10 +97,7 @@ OP3											{column_number += yyleng;return OP3;}
 {UNTERMINATED_STRING}						{printf("Line %d, col %d: unterminated string\n",line_number,column_number);}
 .											{printf("Line %d, col %d: illegal character ('%s')\n",line_number,column_number,yytext);column_number += yyleng;}
 
-
-
 %%
-
 int yywrap()
 {
 	return 1;
